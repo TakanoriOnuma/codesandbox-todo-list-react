@@ -18,13 +18,40 @@ function formatDate(date) {
   return `${year}-${month}-${day}`;
 }
 
+// アニメーションの設定
+const enterAnimation = {
+  from: {
+    opacity: 0,
+    transform: 'translate3d(0, -30px, 0)'
+  },
+  to: {
+    opacity: 1,
+    transform: 'translate3d(0, 0, 0)'
+  }
+};
+const leaveAnimation = {
+  from: {},
+  to: {
+    opacity: 0,
+    transform: 'translate3d(0, -30px, 0)'
+  }
+}
+
 const propTypes = {
   todoList: PropTypes.array.isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
 };
 export default class TodoList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isApperAnimationFinish: false // 最初のアニメーションを終了したか
+    };
+  }
   render() {
+    const { isApperAnimationFinish } = this.state;
     const { todoList } = this.props;
     return (
       <div className="todo-list">
@@ -32,8 +59,13 @@ export default class TodoList extends Component {
         <FlipMove
         typeName="ul"
         className="todo-list__list"
-        enterAnimation="accordionVertical"
-        leaveAnimation="accordionVertical"
+        easing="ease"
+        duration={500}
+        staggerDelayBy={isApperAnimationFinish ? 0 : 100}
+        appearAnimation={enterAnimation}
+        enterAnimation={enterAnimation}
+        leaveAnimation={leaveAnimation}
+        onFinishAll={() => { this.setState({ isApperAnimationFinish: true }); }}
        >
         {todoList.map((todo) => (
           <li

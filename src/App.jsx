@@ -25,6 +25,18 @@ const INITIAL_TODO_LIST = [
     isDone: false,
     text: 'todo3',
     deadline: new Date()
+  },
+  {
+    id: uuid(),
+    isDone: true,
+    text: 'todo4',
+    deadline: new Date()
+  },
+  {
+    id: uuid(),
+    isDone: false,
+    text: 'todo5',
+    deadline: new Date()
   }
 ];
 
